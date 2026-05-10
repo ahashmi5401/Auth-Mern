@@ -15,7 +15,7 @@ const verifyOtp = createAsyncThunk('auth/verify-otp' , async (userForm , {reject
         const res = await axios.post('https://auth-be-five.vercel.app/api/auth/verify-otp' , userForm)
         return res.data
     }catch (error){
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.message || "OTP verification failed")
     }
 })
 
@@ -24,9 +24,9 @@ const login = createAsyncThunk('auth/login' , async (userForm , {rejectWithValue
         const  res = await axios.post('https://auth-be-five.vercel.app/api/auth/login' , userForm);
         return res.data;
     }catch (error){
-        console.log("Login error:", error);
+        console.log("Login error:", error.message);
         return rejectWithValue(
-    error.response?.data?.message || "Login failed"
+    error?.message || "Login failed"
   );
     }
 })

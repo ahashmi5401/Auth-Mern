@@ -4,6 +4,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import { useDispatch } from 'react-redux'
 import { signup } from '../../redux/features/auth/authThunk'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Signup = () => {
   const [userForm , setUserForm ]= useState({
@@ -35,14 +36,15 @@ const Signup = () => {
   let res = await dispatch(signup(userForm)).unwrap();
   console.log("res", res);
     if (res?.status) {
+      toast.success(res?.message || "Signup successful");
       navigate("/verifyOtp");
         }else{
-          console.log("Signup failed", res?.message || "Unknown error");
-          
+          toast.error(res?.message || "Unknown error");
         }
 
 } catch (error) {
   console.log("error is", error);
+  toast.error(error || "Signup failed");
 }
   }
 return (
@@ -111,6 +113,7 @@ return (
       </p>
 
     </form>
+    <Toaster/>
   </div>
 );
 }

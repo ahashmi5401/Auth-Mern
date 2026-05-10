@@ -4,6 +4,7 @@ import Button from '../../components/Button'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { verifyOtp } from '../../redux/features/auth/authThunk'
+import { toast  , Toaster} from 'react-hot-toast'
 
 const VerifyOtp = () => {
   const [userForm, setUserForm] = useState({
@@ -31,12 +32,13 @@ const VerifyOtp = () => {
       console.log("done", res);
 
       if (res.status) {
+          toast.success("OTP verified successfully");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
       }
     } catch (error) {
-      console.log("error is", error);
+      toast.error(error || "OTP verification failed");
     }
   };
 

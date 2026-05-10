@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../redux/features/auth/authThunk";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Login() {
   const [userForm, setUserForm] = useState({
@@ -37,13 +38,13 @@ export default function Login() {
       
 
      if(res.status == true){
+        toast.success(res.message || "Login successful");
         setTimeout(() => {
     navigate("/dashboard")
         },1000)
       }
     } catch (error) {
-      
-      console.log("error is", error.payload);
+      toast.error(error.message || "Login failed");
     }
   };
 
@@ -91,6 +92,7 @@ export default function Login() {
       <Link to="/">Sign Up</Link>
     </span>
   </p>
+  <Toaster/>
 </form>
   );
 }
